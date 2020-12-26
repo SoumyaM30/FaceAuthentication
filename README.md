@@ -14,4 +14,4 @@ The steps for execution are as follows
 * Please remove any coverings from your laptop/desktop camera.
 * It will be training your face for a period of 30 secs.
 * After registering is complete try logging in from the home page by just typing your username.
-* Your face is noy your password. :smiley:
+* Your face is now your password. :smiley:
