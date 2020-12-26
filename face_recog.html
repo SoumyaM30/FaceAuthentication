@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+<style>
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+li {
+    float: left;
+    border-right:1px solid #bbb;
+}
+
+li:last-child {
+    border-right: none;
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li a:hover:not(.active) {
+    background-color: #111;
+}
+
+.active {
+    background-color: #4CAF50;
+}
+
+img.two {
+    height: 90%;
+    width: 100%;
+}
+</style>
+</head>
+<body>
+
+<ul>
+  <li><a class="active" href="parking.html">Home</a></li>
+  <li style="float:right"><a href="about.hmtl">About</a></li>
+</ul>
+
+
+<script src="webcamjs-master/webcam.js"></script>
+<form method="POST" action="http://localhost:5000/signup" enctype="multipart/form-data" id="myForm">
+<div id="parent">
+  <ul>
+    <li></li>
+  </ul>
+<a class="active" href="javascript:void(take_snapshot())" id="verify_link">Sign In</a><br>
+name: <input type="text" name="fname", id='face_name'>
+<a class="active" href="javascript:void(register())" id="register_link">Register</a>
+
+
+<div id="my_camera" style="width:900px; height:600px;"></div>
+</div>
+</form>
+
+
+</body>
+
+<script language="JavaScript">
+
+  function take_snapshot() {
+
+          //saveBase64AsFile(data_uri, "hello.jpg")     
+          console.log("Uploading...")
+          var form = document.getElementById('myForm');
+          var formData = new FormData(form); 
+          //formData.append("d", data_uri)
+          var xmlhttp = new XMLHttpRequest();
+          xmlhttp.open("POST", "http://localhost:5000/signup");
+          xmlhttp.send(formData);
+          xmlhttp.onreadystatechange = function() {
+              if (xmlhttp.readyState === 4) {
+                  par=document.getElementById("parent")
+                  cam=document.getElementById("my_camera")
+                  vl=document.getElementById("verify_link")
+                  par.removeChild(cam)
+                  par.removeChild(vl)
+                  par.innerHTML="<h1>Welcome "+xmlhttp.response+"</h1>"
+
+
+
+      } };
+  }
+
+function sleep(milliseconds) {
+  var start = new Date().getTime();
+  for (var i = 0; i < 1e7; i++) {
+    if ((new Date().getTime() - start) > milliseconds){
+      break;
+    }
+  }
+}
+
+
+  function register(){
+
+          //saveBase64AsFile(data_uri, "hello.jpg")     
+          console.log("Uploading...")
+          var form = document.getElementById('myForm');
+          var formData = new FormData(form); 
+          //formData.append("face", data_uri)
+          formData.append("name", document.getElementById('face_name').value)
+          console.log(document.getElementById('face_name').value)
+          var xmlhttp = new XMLHttpRequest();
+          xmlhttp.open("POST", "http://localhost:5000/register");
+          xmlhttp.send(formData);
+          xmlhttp.onreadystatechange = function() {
+              if (xmlhttp.readyState === 4) {
+                  res=xmlhttp.responseText
+                  console.log(res)
+                  if(res=="face captured")
+                  {
+                      console.log("face captured")
+                      /*
+                        par=document.getElementById("parent")
+                        cam=document.getElementById("my_camera")
+                        vl=document.getElementById("verify_link")
+                        par.removeChild(cam)
+                        par.removeChild(vl)
+                        par.innerHTML="<h1>User Registered</h1>"
+                        */
+                      
+                  }
+                  else if(res=="no face")
+                  {
+                    console.log("no face")
+                  }
+                  /*
+                  par=document.getElementById("parent")
+                  cam=document.getElementById("my_camera")
+                  vl=document.getElementById("verify_link")
+                  par.removeChild(cam)
+                  par.removeChild(vl)
+                  par.innerHTML="<h1>User Registered</h1>"
+                  */
+              }
+          };
+  }
+
+
+</script>
+</html>
